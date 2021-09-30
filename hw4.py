@@ -1,4 +1,8 @@
-## Name: Marina Sun
+
+# Your name: Marina Sun
+# Your student ID:
+# Your email: marinasn@umich.edu
+# List who you have worked with on this homework: Aimee Zheng, Sage Pei
 
 import unittest
 
@@ -210,16 +214,25 @@ class TestAllMethods(unittest.TestCase):
 ### Write main function
 def main():
     #Create different objects 
-    inventory = {"Shake": 30, "Fries": 20, "Sandwich": 43}
-    inventory2 = {"Smoothie": 49, "Salad": 23, "Muffin": 33}
-    customer = Customer("Aimee", 70)
-    customer2 = Customer("Sage", 150)
-    customer3 = Customer("Marina", 20)
-    stall = Stall("Shake Shack", inventory, )
+    i1 = {"Shake": 30, "Fries": 20, "Sandwich": 43}
+    i2 = {"Smoothie": 49, "Salad": 23, "Muffin": 33}
+
+    c1 = Customer("Aimee", 70)
+    c2 = Customer("Sage", 150)
+    c3 = Customer("Marina", 20)
+
+    s1 = Stall("Diner", i1, cost = 10 )
+    s2 = Stall("Smoothie Bar", i2, cost = 30)
+
+    ca1 = Cashier("Lily", directory=["Diner"])
+    ca2 = Cashier("Yongli", directory=["Smoothie Bar"])
     #Try all cases in the validate_order function
     #Below you need to have *each customer instance* try the four cases
+    print("----")
+    ca1.has_stall("Diner")
+    print("----")
     #case 1: the cashier does not have the stall 
-    
+
     #case 2: the casher has the stall, but not enough ordered food or the ordered food item
     
     #case 3: the customer does not have enough money to pay for the order: 
