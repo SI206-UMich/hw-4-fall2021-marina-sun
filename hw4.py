@@ -226,20 +226,20 @@ def main():
 
     ca1 = Cashier("Lily", directory=["Diner"])
     ca2 = Cashier("Yongli", directory=["Smoothie Bar"])
+
+    ca1.add_stall(s1)
+    ca2.add_stall(s2)
+
     #Try all cases in the validate_order function
     #Below you need to have *each customer instance* try the four cases
-    print("----")
-    ca1.has_stall("Diner")
-    print("----")
     #case 1: the cashier does not have the stall 
-
+    c1.validate_order(ca1, s1, "Hot Dog", 1)
     #case 2: the casher has the stall, but not enough ordered food or the ordered food item
-    
+    c2.validate_order(ca2, s2, "Smoothie", 50)
     #case 3: the customer does not have enough money to pay for the order: 
-    
+    c3.validate_order(ca2, s2, "Salad", 15)
     #case 4: the customer successfully places an order
-
-    pass
+    c1.validate_order(ca1, s1, "Muffin", 1)
 
 if __name__ == "__main__":
 	main()
