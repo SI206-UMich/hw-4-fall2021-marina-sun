@@ -201,15 +201,20 @@ class TestAllMethods(unittest.TestCase):
 	# Test validate order
     def test_validate_order(self):
 		# case 1: test if a customer doesn't have enough money in their wallet to order
-
+        print(self.f1.validate_order(c1, s1, "Taco", 11))
+        print("Don't have enough money for that :( Please reload more money!")
 		# case 2: test if the stall doesn't have enough food left in stock
-
+        print(self.f2.validate_order(c2, s2, "Burger", 1000))
+        print("Our stall has run out of Burger :( Please try a different stall!")
 		# case 3: check if the cashier can order item from that stall
-        pass
+        self.assertEqual(self.c1.place_order(s1, "Burger", 4))
 
     # Test if a customer can add money to their wallet
     def test_reload_money(self):
-        pass
+        f3 = Customer("Priya")
+        previous_money = f3.wallet
+        f3.reload_money(50)
+        self.assertEqual(f3.wallet, previous_money + 50)
     
 ### Write main function
 def main():
