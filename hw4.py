@@ -1,6 +1,6 @@
 
 # Your name: Marina Sun
-# Your student ID:
+# Your student ID: 05484769
 # Your email: marinasn@umich.edu
 # List who you have worked with on this homework: Aimee Zheng, Sage Pei
 
@@ -33,7 +33,7 @@ class Customer:
     # Submit_order takes a cashier, a stall and an amount as parameters, 
     # it deducts the amount from the customer’s wallet and calls the receive_payment method on the cashier object
     def submit_order(self, cashier, stall, amount): 
-        self.recieve_payment(stall, amount)
+        cashier.receive_payment(stall, amount)
         self.wallet = self.wallet - amount
 
     # The __str__ method prints the customer's information.    
@@ -90,13 +90,15 @@ class Stall:
         return self
 
     def has_item(self, name, quantity):
-        for name in self.inventory:
-            if self.inventory[name] >= quantity:
+        if name in self.inventory:
+            food_quantity = self.inventory[name]
+            if food_quantity >= quantity:
                 return True
             else:
                 return False
+        else:
+            return False
 
-    
     def stock_up(self, name, quantity):
         if name not in self.inventory:
             self.inventory[name] = quantity
@@ -108,7 +110,7 @@ class Stall:
         return total
 
     def __str__(self):
-        return "Hello, we are " + self.name + ". This is the current menu " + self.inventory + ". We charge $" + self.cost + " per item. We have $" + self.earnings + " in total."
+        return "Hello, we are " + self.name + ". This is the current menu " + self.inventory.keys() + ". We charge $" + self.cost + " per item. We have $" + self.earnings + " in total."
 
 class TestAllMethods(unittest.TestCase):
     
@@ -192,7 +194,7 @@ class TestAllMethods(unittest.TestCase):
         # Test to see if has_item returns True when a stall has enough items left
         # Please follow the instructions below to create three different kinds of test cases 
         # Test case 1: the stall does not have this food item: 
-        self.assertFalse(self.s1.has_item("Hot Dog", 1))
+        self.assertFalse(self.s1.has_item("Pickles", 1))
         # Test case 2: the stall does not have enough food item: 
         self.assertFalse(self.s1.has_item("Burger", 41))
         # Test case 3: the stall has the food item of the certain quantity: 
@@ -201,18 +203,23 @@ class TestAllMethods(unittest.TestCase):
 	# Test validate order
     def test_validate_order(self):
 		# case 1: test if a customer doesn't have enough money in their wallet to order
-        print(self.f1.validate_order(c1, s1, "Taco", 11))
+        print(self.f1.validate_order(self.c1, self.s1, "Taco", 11))
         print("Don't have enough money for that :( Please reload more money!")
 		# case 2: test if the stall doesn't have enough food left in stock
-        print(self.f2.validate_order(c2, s2, "Burger", 1000))
+        print(self.f2.validate_order(self.c2, self.s2, "Burger", 1000))
         print("Our stall has run out of Burger :( Please try a different stall!")
 		# case 3: check if the cashier can order item from that stall
-        self.assertEqual(self.c1.place_order(s1, "Burger", 4))
+        self.assertEqual(self.c1.place_order(self.s1, "Burger", 1), 10)
+        # case 4: test if the cashier has the stall
+        self.s4 = Stall("New Stall", inventory = {})
+        print(self.f1.validate_order(self.c1, self.s4, "Burger", 30))
+        print("Sorry, we don't have that vendor stall. Please try a different one!")
 
     # Test if a customer can add money to their wallet
     def test_reload_money(self):
         f3 = Customer("Priya")
         previous_money = f3.wallet
+        # test if $50 has been added to the wallet correctly
         f3.reload_money(50)
         self.assertEqual(f3.wallet, previous_money + 50)
     
@@ -226,8 +233,8 @@ def main():
     c2 = Customer("Sage", 150)
     c3 = Customer("Marina", 20)
 
-    s1 = Stall("Diner", i1, cost = 10 )
-    s2 = Stall("Smoothie Bar", i2, cost = 30)
+    s1 = Stall("Diner", i1, 10 )
+    s2 = Stall("Smoothie Bar", i2, 30)
 
     ca1 = Cashier("Lily", directory=["Diner"])
     ca2 = Cashier("Yongli", directory=["Smoothie Bar"])
